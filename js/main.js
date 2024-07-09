@@ -1,3 +1,4 @@
+/** state is the scene state */
 let state = null;let L = 0;let K = 0;
 let cubeRule = [[], [], [], [], [], [], [], [], []];
 let faceRule = [[], [], [], [], [], [], []];
@@ -133,10 +134,21 @@ window.onload = async () => {
     
     //called by UI functions when scene is done being built
     async function setScene() {
+      console.log('state',state)
         for (var i = 0; i < size; i++) {
             for (var j = 0; j < size; j++) {
                 for (var k = 0; k < size; k++) {
-                    vox.setVoxel(i, j, k, state[i][j][k]);
+                    let p = 0;
+                    if(((16-i)*(16-i) +(16-j)*(16-j) +(16-k)*(16-k)) < 256){
+                      if(i%2 === 0 || k % 4 === 0 || j %3===0){
+                        p = 2;
+                      } else {
+                        p = 1;
+                      }
+                    } else {
+                      p = 0;
+                    }
+                    vox.setVoxel(i, j, k, p);// use to use state value
                 }
             }
         }
